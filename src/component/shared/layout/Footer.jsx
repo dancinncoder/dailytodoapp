@@ -1,7 +1,12 @@
 import React from "react";
+import styled from "styled-components";
+
+const FooterContainer = styled.div`
+  background-color: gray;
+`;
 
 function Footer() {
-  return <div>Footer</div>;
+  return <FooterContainer>Footer</FooterContainer>;
 }
 
 export default Footer;
