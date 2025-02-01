@@ -66,7 +66,10 @@ const EditingInput = styled.input`
 `;
 
 const FilterButton = styled.button`
-  background-color: ${(props) => (props.isSelected ? "lightblue" : "white")};
+  /* background-color: ${(props) =>
+    props.isSelected ? "lightblue" : "white"}; */
+  background-color: ${({ $isSelected }) =>
+    $isSelected ? "lightblue" : "white"};
   border: 1px solid lightgray;
   padding: 5px 10px;
   cursor: pointer;
@@ -77,20 +80,34 @@ function Home() {
   const [todo, setTodo] = useState("");
   const [modifiedTodo, setModifiedTodo] = useState("");
   const [checkedIdList, setCheckedIdList] = useState([]);
+  const [searchTodo, setSearchTodo] = useState("");
   const [filteredTodoList, setFilteredTodoList] = useState([]);
   const filterList = ["ALL", "BACKLOG", "DONE"];
   const [selectedFilter, setSelectedFilter] = useState("ALL");
   const [isEditing, setIsEditing] = useState(false);
 
-  // Update filteredTodoList when todoList or selectedFilter changes
+  // Update filteredTodoList when todoList, selectedFilter, or searchTodo changes
   useEffect(() => {
-    if (selectedFilter === "ALL") {
-      setFilteredTodoList(todoList);
-    } else {
-      const result = todoList.filter((todo) => todo.status === selectedFilter);
-      setFilteredTodoList(result);
+    let result = todoList;
+
+    // Apply filter
+    if (selectedFilter !== "ALL") {
+      result = result.filter((todo) => todo.status === selectedFilter);
     }
-  }, [todoList, selectedFilter]);
+
+    // Apply search
+    if (searchTodo) {
+      result = result.filter((todo) =>
+        todo.content
+          .toLowerCase()
+          .split(" ")
+          .join("")
+          .includes(searchTodo.toLowerCase().split(" ").join(""))
+      );
+    }
+
+    setFilteredTodoList(result);
+  }, [todoList, selectedFilter, searchTodo]);
 
   const typeTodo = (e) => {
     setTodo(e.target.value);
@@ -98,6 +115,10 @@ function Home() {
 
   const typeModifiedTodo = (e) => {
     setModifiedTodo(e.target.value);
+  };
+
+  const typeSearchTodo = (e) => {
+    setSearchTodo(e.target.value);
   };
 
   const addNewTodo = (event) => {
@@ -191,6 +212,7 @@ function Home() {
 
   const changeFilterOption = (filterName) => {
     setSelectedFilter(filterName);
+    setSearchTodo("");
   };
 
   return (
@@ -218,7 +240,7 @@ function Home() {
               <FilterButton
                 key={item}
                 onClick={() => changeFilterOption(item)}
-                isSelected={selectedFilter === item}
+                $isSelected={selectedFilter === item}
               >
                 {item}
               </FilterButton>
@@ -227,7 +249,11 @@ function Home() {
           <TodoResultContainer>
             <TodoResultTop>
               <h2>{selectedFilter}</h2>
-              <input placeholder="Search todo..." />
+              <input
+                onChange={typeSearchTodo}
+                value={searchTodo}
+                placeholder="Search todo..."
+              />
               <TodoResultButtonContainer>
                 {isEditing ? (
                   <></>
@@ -288,6 +314,7 @@ function Home() {
                                 onClick={() => handleCheck(todo.id)}
                                 type="checkbox"
                                 checked={checkedIdList.includes(todo.id)}
+                                readOnly
                               />
                             )}
                           </>
