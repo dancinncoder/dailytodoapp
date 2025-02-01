@@ -3,11 +3,9 @@ import styled from "styled-components";
 import { v4 as uuidv4 } from "uuid";
 
 const HomeContainer = styled.div`
-  border: 1px solid red;
   padding: 10px;
 `;
 const TodoContainer = styled.div`
-  border: 1px solid blue;
   display: flex;
   flex-direction: column;
   gap: 50px;
@@ -43,6 +41,18 @@ const TodoListContainer = styled.ul`
     }
   }
 `;
+
+const Logo = styled.a`
+  text-decoration: none;
+  color: black;
+
+  h1 {
+    width: 120px;
+    height: 40px;
+    background-color: #cde8ff;
+  }
+`;
+
 const CheckButton = styled.input`
   width: 20px;
   height: 20px;
@@ -86,6 +96,12 @@ function Home() {
   const [selectedFilter, setSelectedFilter] = useState("ALL");
   const [isEditing, setIsEditing] = useState(false);
 
+  // Load local storage todoList data
+  useEffect(() => {
+    const savedTodoList = JSON.parse(localStorage.getItem("todoList"));
+    setTodoList(savedTodoList);
+  }, []);
+
   // Update filteredTodoList when todoList, selectedFilter, or searchTodo changes
   useEffect(() => {
     let result = todoList;
@@ -100,9 +116,8 @@ function Home() {
       result = result.filter((todo) =>
         todo.content
           .toLowerCase()
-          .split(" ")
-          .join("")
-          .includes(searchTodo.toLowerCase().split(" ").join(""))
+          .replace(/\s/g, "")
+          .includes(searchTodo.toLowerCase().replace(/\s/g, ""))
       );
     }
 
@@ -112,11 +127,9 @@ function Home() {
   const typeTodo = (e) => {
     setTodo(e.target.value);
   };
-
   const typeModifiedTodo = (e) => {
     setModifiedTodo(e.target.value);
   };
-
   const typeSearchTodo = (e) => {
     setSearchTodo(e.target.value);
   };
@@ -132,6 +145,8 @@ function Home() {
 
     const updatedTodoList = [...todoList, newTodo];
     setTodoList(updatedTodoList);
+    localStorage.setItem("todoList", JSON.stringify(updatedTodoList));
+
     setTodo("");
   };
 
@@ -162,6 +177,7 @@ function Home() {
     });
 
     setTodoList(updatedTodoList);
+    localStorage.setItem("todoList", JSON.stringify(updatedTodoList));
   };
 
   const deleteTodos = (idList) => {
@@ -169,6 +185,7 @@ function Home() {
       (todo) => !idList.includes(todo.id)
     );
     setTodoList(remainedTodoList);
+    localStorage.setItem("todoList", JSON.stringify(remainedTodoList));
     setCheckedIdList([]);
   };
 
@@ -185,6 +202,7 @@ function Home() {
       return todo;
     });
 
+    localStorage.setItem("todoList", JSON.stringify(updatedTodoList));
     setTodoList(updatedTodoList);
   };
 
@@ -203,6 +221,7 @@ function Home() {
     });
     setIsEditing((isEdiitng) => !isEdiitng);
     setTodoList(updatedTodoList);
+    localStorage.setItem("todoList", JSON.stringify(todoList));
   };
 
   const startEditing = (id, content) => {
@@ -219,7 +238,9 @@ function Home() {
     <HomeContainer>
       <TodoContainer>
         <TodoInputContainer>
-          <h1>Todo</h1>
+          <Logo href="/">
+            <h1>🏠 Todo</h1>
+          </Logo>
           <form onSubmit={addNewTodo}>
             <input
               onChange={typeTodo}
