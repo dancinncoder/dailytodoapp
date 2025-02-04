@@ -84,6 +84,11 @@ function Home() {
   const [selectedMenu, setSelectedMenu] = useState("ALL");
 
   useEffect(() => {
+    const storedTodoList = localStorage.getItem("todoList");
+    setTodoList(storedTodoList ? JSON.parse(storedTodoList) : []);
+  }, []);
+
+  useEffect(() => {
     // Filtering todoList
     let result = todoList;
     if (selectedMenu !== "ALL") {
@@ -91,7 +96,7 @@ function Home() {
     }
 
     // Searching todoList
-    result = todoList?.filter((todo) => {
+    result = result?.filter((todo) => {
       return todo.content
         .toLowerCase()
         .replace(/\s/g, "")
@@ -130,6 +135,7 @@ function Home() {
 
     const updatedTodoList = [...todoList, newTodo];
     setTodoList(updatedTodoList);
+    localStorage.setItem("todoList", JSON.stringify(updatedTodoList));
     setTodo("");
   };
 
@@ -145,6 +151,8 @@ function Home() {
     });
 
     setTodoList(updatedTodoList);
+    localStorage.setItem("todoList", JSON.stringify(updatedTodoList));
+    setTodo("");
   };
 
   const handleCheckbox = (id) => {
@@ -163,6 +171,8 @@ function Home() {
       return !selectedIdList.includes(todo.id);
     });
     setTodoList(updatedTodoList);
+    localStorage.setItem("todoList", JSON.stringify(updatedTodoList));
+
     setSearchTerm("");
   };
 
@@ -181,6 +191,7 @@ function Home() {
 
     setModifiedTodo("");
     setTodoList(updatedList);
+    localStorage.setItem("todoList", JSON.stringify(updatedList));
   };
 
   const toggleTodoEditingState = (selectedId) => {
@@ -197,6 +208,7 @@ function Home() {
       };
     });
     setTodoList(updatedTodoList);
+    localStorage.setItem("todoList", JSON.stringify(updatedTodoList));
   };
 
   const handleEditingMode = (id, content) => {
