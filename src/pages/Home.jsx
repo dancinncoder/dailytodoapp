@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { v4 as uuid } from "uuid";
 
@@ -35,7 +35,7 @@ const ButtonContainer = styled.div`
 `;
 const FilterMenuContainer = styled.div``;
 const DisplayContainer = styled.div``;
-const TopContainer = styled.form``;
+const TopContainer = styled.div``;
 const BottomContainer = styled.div`
   ul {
     list-style: none;
@@ -48,27 +48,69 @@ const BottomContainer = styled.div`
   }
 `;
 
-const DoneItem = styled.li`
+const DoneItem = styled.p`
   background-color: yellow;
   width: 100px;
+  text-decoration: line-through;
   cursor: pointer;
 `;
 
-const BacklogItem = styled.li`
+const BacklogItem = styled.p`
   background-color: lightgreen;
   width: 100px;
   cursor: pointer;
 `;
 
+const ModifiedForm = styled.form`
+  display: flex;
+`;
+
+const Menu = styled.button`
+  background-color: ${({ $selectedMenu }) =>
+    $selectedMenu ? "yellow" : "lightgrey"};
+`;
+
 function Home() {
   const [todo, setTodo] = useState("");
   const [todoList, setTodoList] = useState([]);
+  const [filteredTodoList, setFilteredTodoList] = useState(todoList);
   const [selectedId, setSelectedId] = useState("");
   const [selectedIdList, setSelectedIdList] = useState([]);
+  const [modifiedTodo, setModifiedTodo] = useState("");
+  const [searchTerm, setSearchTerm] = useState("");
+
+  const filterMenuList = ["ALL", "BACKLOG", "DONE"];
+  const [selectedMenu, setSelectedMenu] = useState("ALL");
+
+  useEffect(() => {
+    // Filter
+    let result = todoList;
+    if (selectedMenu !== "ALL") {
+      result = result?.filter((todo) => todo.status === selectedMenu);
+    }
+
+    // Search
+    result = result?.filter((todo) => {
+      return todo.content
+        .replace(/\s/g, "")
+        .toLowerCase()
+        .includes(searchTerm.replace(/\s/g, "").toLowerCase());
+    });
+
+    setFilteredTodoList(result);
+  }, [todoList, selectedMenu, searchTerm]);
 
   // Type Logics
   const typeTodo = (e) => {
     setTodo(e.target.value);
+  };
+
+  const typeModifiedTodo = (e) => {
+    setModifiedTodo(e.target.value);
+  };
+
+  const typeSearchTerm = (e) => {
+    setSearchTerm(e.target.value);
   };
 
   const removeTodo = () => {
@@ -120,6 +162,52 @@ function Home() {
     setTodoList(updatedTodoList);
   };
 
+  const deleteTodo = () => {
+    const filteredTodoList = todoList?.filter((todo) => {
+      return !selectedIdList.includes(todo.id);
+    });
+    console.log("filteredTodoList", filteredTodoList);
+    setTodoList(filteredTodoList);
+    setSearchTerm("");
+  };
+
+  const toggleEditingStatus = (selectedId) => {
+    const updatedTodoList = todoList?.map((todo) => {
+      if (selectedId === todo.id) {
+        return {
+          ...todo,
+          isEditing: !todo.isEditing,
+        };
+      }
+      return todo;
+    });
+    setTodoList(updatedTodoList);
+  };
+
+  const handleEditingMode = (selectedId, previousTodoContent) => {
+    toggleEditingStatus(selectedId);
+    setModifiedTodo(previousTodoContent);
+  };
+
+  const saveModifiedTodo = (e, selectedId) => {
+    e.preventDefault();
+    const updatedTodoList = todoList?.map((todo) => {
+      if (todo.id === selectedId) {
+        return {
+          ...todo,
+          content: modifiedTodo,
+          isEditing: false,
+        };
+      }
+      return todo;
+    });
+    setTodoList(updatedTodoList);
+  };
+
+  const changeSelectedMenu = (menuName) => {
+    setSelectedMenu(menuName);
+  };
+
   console.log("selectedIdList", selectedIdList);
 
   return (
@@ -144,39 +232,86 @@ function Home() {
       <DashboardContainer>
         <FilterMenuContainer>
           <div>
-            <button>All</button>
+            {filterMenuList?.map((menu, index) => {
+              return (
+                <Menu
+                  onClick={() => changeSelectedMenu(menu)}
+                  key={index}
+                  $selectedMenu={menu === selectedMenu}
+                >
+                  {menu}
+                </Menu>
+              );
+            })}
           </div>
         </FilterMenuContainer>
         <DisplayContainer>
           <TopContainer>
-            <h3>All</h3>
-            <input placeholder="search your todos.." />
-            <button type="submit">Delete</button>
+            <h3>{selectedMenu}</h3>
+            <input
+              onChange={typeSearchTerm}
+              value={searchTerm}
+              placeholder="search your todos.."
+            />
+            <button onClick={deleteTodo}>Delete</button>
           </TopContainer>
           <BottomContainer>
-            {todoList?.length > 0 ? (
+            {filteredTodoList?.length > 0 ? (
               <ul>
-                {todoList?.map((todo) => {
+                {filteredTodoList?.map((todo) => {
                   return (
                     <li key={todo.id}>
-                      {todo.status === "DONE" ? (
-                        <DoneItem onClick={() => changeTodoStatus(todo.id)}>
-                          {todo.content}
-                        </DoneItem>
+                      {todo.isEditing === true ? (
+                        <ModifiedForm
+                          onSubmit={(e) => saveModifiedTodo(e, todo.id)}
+                        >
+                          <input
+                            onChange={typeModifiedTodo}
+                            value={modifiedTodo}
+                            placeholder={todo.content}
+                          />
+                          <p>{todo.status}</p>
+                          <button
+                            type="button"
+                            onClick={() =>
+                              handleEditingMode(todo.id, todo.content)
+                            }
+                          >
+                            Back
+                          </button>
+                          <button type="submit">Save</button>
+                        </ModifiedForm>
                       ) : (
-                        <BacklogItem onClick={() => changeTodoStatus(todo.id)}>
-                          {todo.content}
-                        </BacklogItem>
-                      )}
+                        <>
+                          {todo.status === "DONE" ? (
+                            <DoneItem onClick={() => changeTodoStatus(todo.id)}>
+                              {todo.content}
+                            </DoneItem>
+                          ) : (
+                            <BacklogItem
+                              onClick={() => changeTodoStatus(todo.id)}
+                            >
+                              {todo.content}
+                            </BacklogItem>
+                          )}
 
-                      <p>{todo.status}</p>
-                      <input
-                        value={selectedId}
-                        onChange={() => handleCheckbox(todo.id)}
-                        type="checkbox"
-                        checked={selectedIdList?.includes(todo.id)}
-                      />
-                      {/* onChange and then checked */}
+                          <p>{todo.status}</p>
+                          <input
+                            value={selectedId}
+                            onChange={() => handleCheckbox(todo.id)}
+                            type="checkbox"
+                            checked={selectedIdList?.includes(todo.id)}
+                          />
+                          {/* onChange and then checked */}
+                          <button
+                            onClick={() =>
+                              handleEditingMode(todo.id, todo.content)
+                            }
+                          >
+                            Edit
+                          </button>
+                        </>
+                      )}
                     </li>
                   );
                 })}
