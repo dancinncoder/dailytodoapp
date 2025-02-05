@@ -2,6 +2,9 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { v4 as uuid } from "uuid";
 
+// double check typos
+// distinguish onClick and onSubmit
+
 const HomeContainer = styled.div`
   display: flex;
   flex-direction: column;
@@ -49,7 +52,7 @@ const BottomContainer = styled.div`
 `;
 
 const DoneItem = styled.p`
-  background-color: yellow;
+  background-color: #a9a99b;
   width: 100px;
   text-decoration: line-through;
   cursor: pointer;
@@ -81,6 +84,11 @@ function Home() {
 
   const filterMenuList = ["ALL", "BACKLOG", "DONE"];
   const [selectedMenu, setSelectedMenu] = useState("ALL");
+
+  useEffect(() => {
+    const storedtodoList = localStorage.getItem("todoList");
+    setTodoList(storedtodoList ? JSON.parse(storedtodoList) : []);
+  }, []);
 
   useEffect(() => {
     // Filter
@@ -120,20 +128,18 @@ function Home() {
   // Main Logics
   const addNewTodo = (e) => {
     e.preventDefault();
-    if (todo.replace(/\s/g, "").length > 0) {
-      const newTodo = {
-        id: uuid(),
-        content: todo,
-        status: "BACKLOG",
-        isEditing: false,
-      };
-      const updatedTodoList = [...todoList, newTodo];
-      setTodoList(updatedTodoList);
-      setTodo("");
-      console.log("todoList:", todoList);
-    } else {
-      setTodo("");
-    }
+
+    const newTodo = {
+      id: uuid(),
+      content: todo,
+      status: "BACKLOG",
+      isEditing: false,
+    };
+    const updatedTodoList = [...todoList, newTodo];
+    setTodoList(updatedTodoList);
+    localStorage.setItem("todoList", JSON.stringify(updatedTodoList));
+    setTodo("");
+    console.log("todoList:", todoList);
   };
 
   const handleCheckbox = (selectedId) => {
@@ -160,6 +166,7 @@ function Home() {
     });
 
     setTodoList(updatedTodoList);
+    localStorage.setItem("todoList", JSON.stringify(updatedTodoList));
   };
 
   const deleteTodo = () => {
@@ -168,6 +175,7 @@ function Home() {
     });
     console.log("filteredTodoList", filteredTodoList);
     setTodoList(filteredTodoList);
+    localStorage.setItem("TodoList", JSON.stringify(filteredTodoList));
     setSearchTerm("");
   };
 
@@ -182,6 +190,7 @@ function Home() {
       return todo;
     });
     setTodoList(updatedTodoList);
+    localStorage.setItem("TodoList", JSON.stringify(updatedTodoList));
   };
 
   const handleEditingMode = (selectedId, previousTodoContent) => {
@@ -202,6 +211,7 @@ function Home() {
       return todo;
     });
     setTodoList(updatedTodoList);
+    localStorage.setItem("TodoList", JSON.stringify(updatedTodoList));
   };
 
   const changeSelectedMenu = (menuName) => {
@@ -216,7 +226,7 @@ function Home() {
         <p>Todo</p>
       </Logo>
       <InputContainer>
-        <InputForm onClick={addNewTodo}>
+        <InputForm onSubmit={addNewTodo}>
           <h2>Todo</h2>
           <input
             onChange={typeTodo}
@@ -225,7 +235,9 @@ function Home() {
           />
           <ButtonContainer>
             <button type="submit">Save</button>
-            <button onClick={removeTodo}>Cancel</button>
+            <button type="button" onClick={removeTodo}>
+              Cancel
+            </button>
           </ButtonContainer>
         </InputForm>
       </InputContainer>
