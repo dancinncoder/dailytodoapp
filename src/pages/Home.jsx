@@ -7,70 +7,359 @@ import { v4 as uuid } from "uuid";
 
 const HomeContainer = styled.div`
   display: flex;
-  flex-direction: column;
-  gap: 20px;
-  padding: 20px 0;
-`;
-const Logo = styled.a`
-  text-decoration: none;
-  color: black;
-  background-color: lightgray;
-  padding: 10px;
-  width: 70px;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 46px;
+  padding: 33px 80px;
+  background-color: #f9fafb;
 
-  p {
-    cursor: pointer;
+  @media (max-width: 770px) {
+    flex-direction: column;
+    align-items: start;
+    padding: 20px 30px;
   }
 `;
-const InputContainer = styled.div``;
-const DashboardContainer = styled.div``;
+
+const InputContainer = styled.div`
+  background-color: white;
+  min-width: 350px;
+  padding: 24px;
+  border-radius: 8px;
+  box-shadow: 1px 1px 6px #e5e7eb;
+
+  @media (max-width: 770px) {
+    min-width: 100%;
+    padding: 16px;
+  }
+`;
+
+const DashboardContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+
+  @media (max-width: 770px) {
+    gap: 16px;
+    width: 100%;
+  }
+`;
+
 const InputForm = styled.form`
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  align-items: start;
+  gap: 16px;
 
   input {
-    width: 300px;
-  }
-`;
-const ButtonContainer = styled.div`
-  display: flex;
-`;
-const FilterMenuContainer = styled.div``;
-const DisplayContainer = styled.div``;
-const TopContainer = styled.div``;
-const BottomContainer = styled.div`
-  ul {
-    list-style: none;
-    padding: 0;
+    width: 100%;
+    border: 1.3px solid #e5e7eb;
+    border-radius: 8px;
+    min-height: 68px;
+    padding: 16px;
 
-    li {
-      display: flex;
-      gap: 10px;
+    &:focus {
+      outline: none;
+    }
+  }
+
+  h2 {
+    font-size: 20px;
+    font-weight: 600;
+    color: black;
+    margin: 0;
+  }
+
+  @media (max-width: 770px) {
+    align-items: center;
+    input {
+      width: 100%;
     }
   }
 `;
 
-const DoneItem = styled.p`
-  background-color: #a9a99b;
-  width: 100px;
-  text-decoration: line-through;
-  cursor: pointer;
+const ButtonContainer = styled.div`
+  display: flex;
+  gap: 8px;
+  width: 100%;
+  align-items: center;
+
+  @media (max-width: 770px) {
+    flex-direction: column;
+    gap: 10px;
+  }
 `;
 
-const BacklogItem = styled.p`
-  background-color: lightgreen;
-  width: 100px;
+const SaveButton = styled.button`
+  background-color: #4f46e5;
+  color: white;
+  height: 42px;
+  width: 86.47px;
+  border: none;
+  border-radius: 4px;
+  padding: 11px 17px;
   cursor: pointer;
+
+  @media (max-width: 770px) {
+    width: 100%;
+    height: 50px;
+  }
+`;
+
+const CancelButton = styled.button`
+  background-color: white;
+  color: black;
+  height: 42px;
+  width: 86.47px;
+  border: 1px solid #d1d5db;
+  border-radius: 4px;
+  padding: 11px 17px;
+  cursor: pointer;
+
+  @media (max-width: 770px) {
+    width: 100%;
+    height: 50px;
+  }
+`;
+
+const EditButton = styled.button`
+  width: 32px;
+  height: 28px;
+  font-size: 9px;
+  padding: 1px;
+  background-color: transparent;
+  color: #6b7280;
+  border-radius: 4px;
+  border: 1px solid #d1d5db;
+  cursor: pointer;
+`;
+const WhiteButton = styled.button`
+  color: #6b7280;
+  height: 31px;
+  width: 65px;
+  border: 1px solid #d1d5db;
+  border-radius: 4px;
+  cursor: pointer;
+  padding: 5px 6px 4px 7px;
+  background-color: white;
+`;
+const FilterMenuContainer = styled.div``;
+const DisplayContainer = styled.div`
+  background-color: white;
+  border: 1px solid #e5e7eb;
+  box-shadow: 1px 1px 6px #e5e7eb;
+  border-radius: 8px;
+  padding: 24px;
+  max-width: 612px;
+
+  @media (max-width: 770px) {
+    width: 100%;
+    max-width: 100%;
+    padding: 16px;
+  }
+`;
+
+const TopContainer = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  div {
+    display: flex;
+    align-items: center;
+
+    h3 {
+      font-size: 20px;
+      font-weight: 700;
+      margin: 0;
+    }
+  }
+
+  input {
+    min-width: 240px;
+    height: 30px;
+    padding: 3px 16px 4px;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+
+    @media (max-width: 770px) {
+      width: 100%;
+      min-width: 150px;
+    }
+  }
+
+  @media (max-width: 770px) {
+    flex-direction: column;
+    gap: 10px;
+  }
+`;
+
+const BottomContainer = styled.div`
+  ul {
+    display: flex;
+    flex-direction: column;
+    list-style: none;
+    padding: 0;
+    gap: 13px;
+
+    li {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 10px;
+
+      @media (min-width: 770px) {
+        gap: 8px;
+      }
+    }
+  }
+
+  @media (max-width: 770px) {
+    padding: 0;
+    gap: 10px;
+  }
+`;
+
+const DoneItem = styled.div`
+  border: none;
+  border-radius: 15px;
+  color: white;
+  background-color: #c1bfe0;
+  padding: 15px 31px 5px;
+  height: 49px;
+  width: 100%;
+  cursor: pointer;
+  margin: 0;
+  text-decoration: line-through;
+
+  @media (max-width: 770px) {
+    padding: 10px 20px;
+    font-size: 14px;
+    height: auto;
+  }
+`;
+
+const BacklogItem = styled.div`
+  position: relative;
+  border: none;
+  border-radius: 15px;
+  color: white;
+  background-color: #4f46e5;
+  padding: 15px 31px 5px;
+  height: 49px;
+  width: 100%;
+  cursor: pointer;
+  margin: 0;
+  z-index: 998;
+
+  @media (max-width: 770px) {
+    padding: 10px 20px;
+    font-size: 14px;
+    height: auto;
+  }
 `;
 
 const ModifiedForm = styled.form`
   display: flex;
+  width: 100%;
+  gap: 10px;
+  align-items: center;
+`;
+
+const MenuContainer = styled.div`
+  display: flex;
+  gap: 8px;
+
+  @media (max-width: 770px) {
+    flex-direction: column;
+    width: 100%;
+    gap: 1px;
+  }
 `;
 
 const Menu = styled.button`
+  height: 42px;
+  width: 110px;
+  border-radius: 4px;
+  border: ${({ $selectedMenu }) =>
+    $selectedMenu ? "none" : "1px solid #d1d5db"};
   background-color: ${({ $selectedMenu }) =>
-    $selectedMenu ? "yellow" : "lightgrey"};
+    $selectedMenu ? "#4F46E5" : "white"};
+  color: ${({ $selectedMenu }) => ($selectedMenu ? "white" : "black")};
+  cursor: pointer;
+
+  @media (max-width: 770px) {
+    width: 100%;
+    margin-bottom: 10px;
+  }
+`;
+
+const CheckBox = styled.input`
+  width: 30px;
+  height: 30px;
+  border-radius: 9px;
+  border: none;
+  background-color: #4f46e5;
+  margin: 0;
+
+  @media (max-width: 770px) {
+    width: 25px;
+    height: 25px;
+  }
+`;
+
+const SearchInput = styled.input`
+  &:focus {
+    outline: none;
+  }
+  width: 100%;
+
+  @media (max-width: 770px) {
+    width: 100%;
+  }
+`;
+
+const TopInputContainer = styled.div`
+  /* min-width: 490px; */
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding-right: 10px;
+  gap: 10px;
+
+  h3 {
+    font-size: 18px;
+    padding-left: 5px;
+  }
+
+  @media (min-width: 770px) {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
+`;
+
+const ModifiedInput = styled.input`
+  border: 1px solid #4f46e5;
+  border-radius: 15px;
+  color: #4f46e5;
+  background-color: white;
+  width: 100px;
+  padding: 15px 31px;
+  height: 49px;
+  margin: 0;
+
+  &:focus {
+    outline: none;
+  }
+
+  @media (max-width: 770px) {
+    width: 100%;
+    padding: 10px 16px;
+    margin-bottom: 10px;
+  }
 `;
 
 function Home() {
@@ -222,28 +511,25 @@ function Home() {
 
   return (
     <HomeContainer>
-      <Logo href="/">
-        <p>Todo</p>
-      </Logo>
       <InputContainer>
         <InputForm onSubmit={addNewTodo}>
           <h2>Todo</h2>
           <input
             onChange={typeTodo}
             value={todo}
-            placeholder="write your todos.."
+            placeholder="Write your todos.."
           />
           <ButtonContainer>
-            <button type="submit">Save</button>
-            <button type="button" onClick={removeTodo}>
+            <SaveButton type="submit">Save</SaveButton>
+            <CancelButton type="button" onClick={removeTodo}>
               Cancel
-            </button>
+            </CancelButton>
           </ButtonContainer>
         </InputForm>
       </InputContainer>
       <DashboardContainer>
         <FilterMenuContainer>
-          <div>
+          <MenuContainer>
             {filterMenuList?.map((menu, index) => {
               return (
                 <Menu
@@ -255,17 +541,19 @@ function Home() {
                 </Menu>
               );
             })}
-          </div>
+          </MenuContainer>
         </FilterMenuContainer>
         <DisplayContainer>
           <TopContainer>
-            <h3>{selectedMenu}</h3>
-            <input
-              onChange={typeSearchTerm}
-              value={searchTerm}
-              placeholder="search your todos.."
-            />
-            <button onClick={deleteTodo}>Delete</button>
+            <TopInputContainer>
+              <h3>{selectedMenu}</h3>
+              <SearchInput
+                onChange={typeSearchTerm}
+                value={searchTerm}
+                placeholder="search your todos.."
+              />
+            </TopInputContainer>
+            <WhiteButton onClick={deleteTodo}>Delete</WhiteButton>
           </TopContainer>
           <BottomContainer>
             {filteredTodoList?.length > 0 ? (
@@ -277,21 +565,20 @@ function Home() {
                         <ModifiedForm
                           onSubmit={(e) => saveModifiedTodo(e, todo.id)}
                         >
-                          <input
+                          <ModifiedInput
                             onChange={typeModifiedTodo}
                             value={modifiedTodo}
                             placeholder={todo.content}
                           />
-                          <p>{todo.status}</p>
-                          <button
+                          <EditButton
                             type="button"
                             onClick={() =>
                               handleEditingMode(todo.id, todo.content)
                             }
                           >
                             Back
-                          </button>
-                          <button type="submit">Save</button>
+                          </EditButton>
+                          <EditButton type="submit">Save</EditButton>
                         </ModifiedForm>
                       ) : (
                         <>
@@ -306,22 +593,20 @@ function Home() {
                               {todo.content}
                             </BacklogItem>
                           )}
-
-                          <p>{todo.status}</p>
-                          <input
-                            value={selectedId}
-                            onChange={() => handleCheckbox(todo.id)}
-                            type="checkbox"
-                            checked={selectedIdList?.includes(todo.id)}
-                          />
                           {/* onChange and then checked */}
-                          <button
+                          <EditButton
                             onClick={() =>
                               handleEditingMode(todo.id, todo.content)
                             }
                           >
                             Edit
-                          </button>
+                          </EditButton>
+                          <CheckBox
+                            value={selectedId}
+                            onChange={() => handleCheckbox(todo.id)}
+                            type="checkbox"
+                            checked={selectedIdList?.includes(todo.id)}
+                          />
                         </>
                       )}
                     </li>
@@ -329,7 +614,7 @@ function Home() {
                 })}
               </ul>
             ) : (
-              <p>add your todos..</p>
+              <p style={{ paddingLeft: "5px" }}>add your todos..</p>
             )}
           </BottomContainer>
         </DisplayContainer>
