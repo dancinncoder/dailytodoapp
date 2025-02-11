@@ -225,6 +225,7 @@ const DoneItem = styled.div`
   border-radius: 15px;
   color: white;
   background-color: #c1bfe0;
+  font-size: 14px;
   padding: 15px 31px 5px;
   height: 49px;
   width: 100%;
@@ -242,10 +243,12 @@ const DoneItem = styled.div`
 const BacklogItem = styled.div`
   position: relative;
   border: none;
+  border: 1px solid #e5e7eb;
   border-radius: 15px;
-  color: white;
-  background-color: #4f46e5;
+  color: #6b7280;
+  background-color: white;
   padding: 15px 31px 5px;
+  font-size: 14px;
   height: 49px;
   width: 100%;
   cursor: pointer;
@@ -342,11 +345,12 @@ const TopInputContainer = styled.div`
 `;
 
 const ModifiedInput = styled.input`
-  border: 1px solid #4f46e5;
+  border: 1px solid #e5e7eb;
   border-radius: 15px;
   color: #4f46e5;
   background-color: white;
-  width: 100px;
+  width: 100%;
+  font-size: 14px;
   padding: 15px 31px;
   height: 49px;
   margin: 0;
