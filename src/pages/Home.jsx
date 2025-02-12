@@ -176,7 +176,7 @@ const TopContainer = styled.div`
   }
 
   input {
-    min-width: 240px;
+    /* min-width: 240px; */
     height: 30px;
     padding: 3px 16px 4px;
     border: 1px solid #e5e7eb;
@@ -311,6 +311,21 @@ const CheckBox = styled.input`
   }
 `;
 
+const MasterCheckBox = styled.input`
+  width: 30px;
+  height: 30px;
+  border-radius: 9px;
+  border: none;
+  background-color: #4f46e5;
+  margin: 0;
+  margin-right: 10px;
+
+  @media (max-width: 770px) {
+    width: 25px;
+    height: 25px;
+  }
+`;
+
 const SearchInput = styled.input`
   &:focus {
     outline: none;
@@ -374,6 +389,8 @@ function Home() {
   const [selectedIdList, setSelectedIdList] = useState([]);
   const [modifiedTodo, setModifiedTodo] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
+
+  const [isSelectedAll, setIsSelectedAll] = useState(false);
 
   const filterMenuList = ["ALL", "BACKLOG", "DONE"];
   const [selectedMenu, setSelectedMenu] = useState("ALL");
@@ -470,6 +487,7 @@ function Home() {
     setTodoList(filteredTodoList);
     localStorage.setItem("TodoList", JSON.stringify(filteredTodoList));
     setSearchTerm("");
+    setIsSelectedAll(false);
   };
 
   const toggleEditingStatus = (selectedId) => {
@@ -509,6 +527,28 @@ function Home() {
 
   const changeSelectedMenu = (menuName) => {
     setSelectedMenu(menuName);
+  };
+
+  const handleCheckAll = () => {
+    // Check if todoList exist
+    if (!todoList) return;
+
+    // Get all ids of todoList
+    const allTodoIds = todoList?.map((todo) => todo.id);
+
+    const isAllTodoChecked = allTodoIds?.every((id) =>
+      selectedIdList.includes(id)
+    );
+
+    if (isAllTodoChecked) {
+      // Empty All
+      setSelectedIdList([]);
+      setIsSelectedAll(false);
+    } else {
+      // Add All
+      setSelectedIdList(allTodoIds);
+      setIsSelectedAll(true);
+    }
   };
 
   console.log("selectedIdList", selectedIdList);
@@ -557,6 +597,11 @@ function Home() {
                 placeholder="search your todos.."
               />
             </TopInputContainer>
+            <MasterCheckBox
+              onChange={handleCheckAll}
+              checked={isSelectedAll === true}
+              type="checkbox"
+            />
             <WhiteButton onClick={deleteTodo}>Delete</WhiteButton>
           </TopContainer>
           <BottomContainer>
