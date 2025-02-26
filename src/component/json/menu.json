@@ -1,0 +1,188 @@
+[
+  {
+    "category": "MAIN",
+    "sub_category": "bibimbab",
+    "menu_name": "Beef Bibimbab",
+    "price": 8.7
+  },
+  {
+    "category": "MAIN",
+    "sub_category": "bibimbab",
+    "menu_name": "Chilli Chicken Bibimbab",
+    "price": 8.7
+  },
+  {
+    "category": "MAIN",
+    "sub_category": "bibimbab",
+    "menu_name": "Spicy Pork Bibimbab",
+    "price": 8.7
+  },
+  {
+    "category": "MAIN",
+    "sub_category": "bibimbab",
+    "menu_name": "KFC Bibimbab",
+    "price": 8.7
+  },
+  {
+    "category": "MAIN",
+    "sub_category": "onrice",
+    "menu_name": "Beef On-rice",
+    "price": 8.3
+  },
+  {
+    "category": "MAIN",
+    "sub_category": "onrice",
+    "menu_name": "Pork On-rice",
+    "price": 8.3
+  },
+  {
+    "category": "MAIN",
+    "sub_category": "onrice",
+    "menu_name": "KFC On-rice",
+    "price": 8.3
+  },
+  {
+    "category": "MAIN",
+    "sub_category": "onrice",
+    "menu_name": "Katsu Curry On-rice",
+    "price": 8.3
+  },
+  {
+    "category": "MAIN",
+    "sub_category": "bento",
+    "menu_name": "Beef Bento",
+    "price": 9.1
+  },
+  {
+    "category": "MAIN",
+    "sub_category": "bento",
+    "menu_name": "Spicy Pork Bento",
+    "price": 9.1
+  },
+  {
+    "category": "MAIN",
+    "sub_category": "bento",
+    "menu_name": "KFC Bento",
+    "price": 9.1
+  },
+  {
+    "category": "MAIN",
+    "sub_category": "bento",
+    "menu_name": "Chicken Katsu Bento",
+    "price": 9.1
+  },
+  {
+    "category": "SIDE",
+    "sub_category": "dumpling",
+    "menu_name": "Pork Dumpling",
+    "price": 3.5
+  },
+  {
+    "category": "SIDE",
+    "sub_category": "dumpling",
+    "menu_name": "Vegetable Dumpling",
+    "price": 3.5
+  },
+  {
+    "category": "SIDE",
+    "sub_category": "dumpling",
+    "menu_name": "Chicken Dumpling",
+    "price": 3.5
+  },
+  {
+    "category": "SIDE",
+    "sub_category": "kfc",
+    "menu_name": "KFC Small",
+    "price": 3.5
+  },
+  {
+    "category": "SIDE",
+    "sub_category": "kfc",
+    "menu_name": "KFC Medium",
+    "price": 6.5
+  },
+  {
+    "category": "SIDE",
+    "sub_category": "kfc",
+    "menu_name": "KFC Large",
+    "price": 7
+  },
+  {
+    "category": "SIDE",
+    "sub_category": "extra",
+    "menu_name": "Kimchi",
+    "price": 1.5
+  },
+  {
+    "category": "SIDE",
+    "sub_category": "extra",
+    "menu_name": "Egg",
+    "price": 1
+  },
+  {
+    "category": "SIDE",
+    "sub_category": "extra",
+    "menu_name": "Extra Vegetable",
+    "price": 1
+  },
+  {
+    "category": "SIDE",
+    "sub_category": "extra",
+    "menu_name": "Extra KFC",
+    "price": 1
+  },
+  {
+    "category": "SIDE",
+    "sub_category": "extra",
+    "menu_name": "Extra Beef",
+    "price": 1
+  },
+  {
+    "category": "SIDE",
+    "sub_category": "extra",
+    "menu_name": "Extra Pork",
+    "price": 1
+  },
+  {
+    "category": "SIDE",
+    "sub_category": "extra",
+    "menu_name": "Extra Chilli Chicken",
+    "price": 1
+  },
+  {
+    "category": "SIDE",
+    "sub_category": "extra",
+    "menu_name": "Extra Katsu",
+    "price": 1
+  },
+  {
+    "category": "DRINK",
+    "sub_category": "drink",
+    "menu_name": "Still Water",
+    "price": 1.5
+  },
+  {
+    "category": "DRINK",
+    "sub_category": "drink",
+    "menu_name": "Sparkling Water",
+    "price": 2.5
+  },
+  {
+    "category": "DRINK",
+    "sub_category": "drink",
+    "menu_name": "Coke",
+    "price": 1.7
+  },
+  {
+    "category": "DRINK",
+    "sub_category": "drink",
+    "menu_name": "Diet Coke",
+    "price": 1.7
+  },
+  {
+    "category": "DRINK",
+    "sub_category": "drink",
+    "menu_name": "Zero Coke",
+    "price": 1.7
+  }
+]
